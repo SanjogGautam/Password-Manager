@@ -30,20 +30,25 @@ while True:
             continue
         with open("passwords.txt", "r") as f:
             for i in f.readlines():
-                username, password = i.split("|")
-                print(f"Username: {username} | password= {password}")
+                data=i.strip()
+                username, password = data.split("|")
+                d_password=fer.decrypt(password).decode()
+                print(f"Username: {username} | password= {d_password}")
     elif mode == "write":
         if not os.path.exists("passwords.txt"):
             print("New Password file: ")
             username = input("Enter username= ")
             password = input("Enter password= ")
-            with open("password.txt", "w") as f:
-                f.write(f"{username}|{password}\n")
+            e_password=fer.encrypt(password).encode()
+            with open("passwords.txt", "w") as f:
+                f.write(f"{username}|{e_password}\n")
+            continue
 
         username = input("Enter username= ")
         password = input("Enter password= ")
+        e_password=fer.encrypt(password).encode()
         with open("passwords.txt", "a") as f:
-            f.write(f"{username}|{password}\n")
+            f.write(f"{username}|{e_password}\n")
 
     else:
         print("Invalid mode.")
